@@ -29,3 +29,5 @@ npm run dist
 ```
 
 이 프로젝트는 실제 국가가 아닌 창작 가상국가 시뮬레이션입니다.
+
+<!-- GitHub Actions build trigger -->
