@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>대한제국 국가운영기</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="flag">☯</div>
+      <div><b>대한제국</b><small>DAEHAN EMPIRE</small></div>
+    </div>
+    <div class="turnbox"><span>국정 연차</span><strong id="turn">1년차</strong></div>
+    <nav>
+      <button class="nav active" data-page="dashboard">⌂ 국가 개요</button>
+      <button class="nav" data-page="economy">₩ 경제·재정</button>
+      <button class="nav" data-page="citizens">♙ 국민·사회</button>
+      <button class="nav" data-page="diplomacy">◎ 외교</button>
+      <button class="nav" data-page="military">⚔ 국방</button>
+      <button class="nav" data-page="laws">§ 법률·정책</button>
+    </nav>
+    <div class="sidebar-foot">창작 가상국가 시뮬레이션<br><span>v1.0.0</span></div>
+  </aside>
+  <main>
+    <header>
+      <div><span class="eyebrow">대한제국 정부 시스템</span><h1 id="pageTitle">국가 개요</h1></div>
+      <div class="date" id="date"></div>
+    </header>
+    <section id="content"></section>
+  </main>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
