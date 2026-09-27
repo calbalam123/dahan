@@ -1,0 +1,30 @@
+name: Build Kakao Economy Bot
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "kakaobot/**"
+      - ".github/workflows/kakaobot-build.yml"
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: kakaobot
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: pip install -r requirements.txt
+      - name: Build EXE
+        run: pyinstaller --noconsole --onefile --name GagukEconomyBot main.py
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: Gaguk-Economy-Bot-Windows
+          path: kakaobot/dist/GagukEconomyBot.exe
