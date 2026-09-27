@@ -1,0 +1,24 @@
+{
+  "name": "dahan-empire",
+  "version": "1.0.0",
+  "description": "가상국가 대한제국 국가운영 시뮬레이터",
+  "main": "main.js",
+  "author": "Dahan Empire Community",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win portable"
+  },
+  "devDependencies": {
+    "electron": "^38.2.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "kr.dahan.empire",
+    "productName": "대한제국 국가운영기",
+    "files": ["main.js", "index.html", "style.css", "app.js"],
+    "win": {
+      "target": ["portable"]
+    }
+  }
+}
