@@ -4,6 +4,10 @@ import threading
 import tkinter as tk
 from tkinter import ttk, messagebox
 from pathlib import Path
+try:
+    import pyperclip
+except Exception:
+    pyperclip = None
 
 try:
     from pywinauto import Desktop
@@ -145,22 +149,46 @@ class KakaoBridge:
         if not self.window:
             self.connect()
         self.window.set_focus()
-        send_keys(message.replace("\n", "{ENTER}"), with_spaces=True)
+        if pyperclip is None:
+            raise RuntimeError("클립보드 모듈이 없습니다.")
+        pyperclip.copy(message)
+        send_keys("^v")
         send_keys("{ENTER}")
+        time.sleep(0.15)
         return True
 
     def visible_text(self):
         if not self.window:
             self.connect()
         texts = []
+        seen = set()
         try:
-            for c in self.window.descendants(control_type="Text"):
-                s = c.window_text().strip()
-                if s:
+            for c in self.window.descendants():
+                try:
+                    s = c.window_text().strip()
+                except Exception:
+                    continue
+                if s and s not in seen:
+                    seen.add(s)
                     texts.append(s)
         except Exception:
             pass
         return texts
+
+    def command_messages(self):
+        found = []
+        for value in self.visible_text():
+            for line in value.splitlines():
+                line = line.strip()
+                if line.startswith(">"):
+                    found.append(line)
+        result = []
+        seen = set()
+        for cmd in found:
+            if cmd not in seen:
+                seen.add(cmd)
+                result.append(cmd)
+        return result
 
 class App(tk.Tk):
     def __init__(self):
@@ -259,8 +287,7 @@ class App(tk.Tk):
         # 메시지 영역에서 읽을 수 있는 텍스트만 처리하고, 중복은 차단합니다.
         while self.running:
             try:
-                texts = self.bridge.visible_text()
-                candidates = [x for x in texts if x.startswith(">")]
+                candidates = self.bridge.command_messages()
                 for cmd in candidates[-8:]:
                     key = cmd
                     if key in self.last_seen:
